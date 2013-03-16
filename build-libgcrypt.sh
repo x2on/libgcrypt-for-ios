@@ -69,7 +69,9 @@ do
 
 	echo "Patching libgcrypt to compile with iOS-SDK..."
 	echo "@see http://www.telesphoreo.org/browser/trunk/data/gcrypt/armasm.diff"
-	patch -p0 < ../../armasm.diff >> "${LOG}" 2>&1
+	PATCHFILE=`find ../.. | grep "armasm.diff"`
+	echo "Using: ${PATCHFILE}"
+	patch -p0 < $PATCHFILE >> "${LOG}" 2>&1
 	echo "Patching done."
 
 	export DEVROOT="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
