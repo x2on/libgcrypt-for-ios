@@ -57,27 +57,27 @@ do
 	tar zxf libgpg-error-${VERSION}.tar.gz -C src
 	cd src/libgpg-error-${VERSION}
 
-	export DEVROOT="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
-	export SDKROOT="${DEVROOT}/SDKs/${PLATFORM}${SDKVERSION}.sdk"
-	export LD=${DEVROOT}/usr/bin/ld
+	export BUILD_DEVROOT="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
+	export BUILD_SDKROOT="${BUILD_DEVROOT}/SDKs/${PLATFORM}${SDKVERSION}.sdk"
+	export LD=${BUILD_DEVROOT}/usr/bin/ld
 	if [ "${ARCH}" == "i386" ];
 	then
-	export CC=${DEVROOT}/usr/bin/gcc
-		export CPP=${DEVROOT}/usr/bin/cpp
-		export CXX=${DEVROOT}/usr/bin/g++
-		export CXXCPP=$DEVROOT/usr/bin/cpp
+	export CC=${BUILD_DEVROOT}/usr/bin/gcc
+		export CPP=${BUILD_DEVROOT}/usr/bin/cpp
+		export CXX=${BUILD_DEVROOT}/usr/bin/g++
+		export CXXCPP=$BUILD_DEVROOT/usr/bin/cpp
 	else
-		export CC=${DEVROOT}/usr/bin/gcc
-		export CXX=${DEVROOT}/usr/bin/g++
+		export CC=${BUILD_DEVROOT}/usr/bin/gcc
+		export CXX=${BUILD_DEVROOT}/usr/bin/g++
 	fi
-	export AR=${DEVROOT}/usr/bin/ar
-	export AS=${DEVROOT}/usr/bin/as
-	export NM=${DEVROOT}/usr/bin/nm
-	export CXXCPP=$DEVROOT/usr/bin/cpp
-	export RANLIB=$DEVROOT/usr/bin/ranlib
-	export LDFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -L${CURRENTPATH}/lib"
-	export CFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -I${CURRENTPATH}/include"
-	export CXXFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -I${CURRENTPATH}/include"
+	export AR=${BUILD_DEVROOT}/usr/bin/ar
+	export AS=${BUILD_DEVROOT}/usr/bin/as
+	export NM=${BUILD_DEVROOT}/usr/bin/nm
+	export CXXCPP=$BUILD_DEVROOT/usr/bin/cpp
+	export RANLIB=$BUILD_DEVROOT/usr/bin/ranlib
+	export LDFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${BUILD_SDKROOT} -L${CURRENTPATH}/lib"
+	export CFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${BUILD_SDKROOT} -I${CURRENTPATH}/include"
+	export CXXFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${BUILD_SDKROOT} -I${CURRENTPATH}/include"
 
 	mkdir -p "${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk"
 
