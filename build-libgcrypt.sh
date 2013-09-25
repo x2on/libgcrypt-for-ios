@@ -77,22 +77,16 @@ do
 	export DEVROOT="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
 	export SDKROOT="${DEVROOT}/SDKs/${PLATFORM}${SDKVERSION}.sdk"
 	export CC=${DEVELOPER}/usr/bin/gcc
-	export LD=${DEVROOT}/usr/bin/ld
+	export LD=${DEVELOPER}/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld
 	export CXX=${DEVELOPER}/usr/bin/g++
-	if [ "${ARCH}" == "i386" ];
-	then
-		export AS=${DEVELOPER}/Toolchains/XcodeDefault.xctoolchain/usr/bin/as
-		export NM=${DEVELOPER}/Toolchains/XcodeDefault.xctoolchain/usr/bin/nm
-		export RANLIB=${DEVELOPER}/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib
-	else
-		export AR=${DEVROOT}/usr/bin/ar
-		export AS=${DEVROOT}/usr/bin/as
-		export NM=${DEVROOT}/usr/bin/nm
-		export RANLIB=${DEVROOT}/usr/bin/ranlib
-	fi
+	export AR=${DEVELOPER}/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar
+	export AS=${DEVELOPER}/Toolchains/XcodeDefault.xctoolchain/usr/bin/as
+	export NM=${DEVELOPER}/Toolchains/XcodeDefault.xctoolchain/usr/bin/nm
+	export RANLIB=${DEVELOPER}/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib
 	export LDFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -L${CURRENTPATH}/lib -miphoneos-version-min=7.0 -fheinous-gnu-extensions"
 	export CFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -I${CURRENTPATH}/include -miphoneos-version-min=7.0 -fheinous-gnu-extensions"
 	export CPPFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -I${CURRENTPATH}/include -miphoneos-version-min=7.0 -fheinous-gnu-extensions"
+	export CXXFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -I${CURRENTPATH}/include -miphoneos-version-min=7.0 -fheinous-gnu-extensions"
 	
 	if [ "${ARCH}" == "i386" ];
 	then
