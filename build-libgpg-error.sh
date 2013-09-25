@@ -22,7 +22,7 @@
 #  Change values here
 #
 VERSION="1.10"
-SDKVERSION="6.1"
+SDKVERSION="7.0"
 #
 ###########################################################################
 #
@@ -60,24 +60,23 @@ do
 	export BUILD_DEVROOT="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
 	export BUILD_SDKROOT="${BUILD_DEVROOT}/SDKs/${PLATFORM}${SDKVERSION}.sdk"
 	export LD=${BUILD_DEVROOT}/usr/bin/ld
+	export CC=${DEVELOPER}/usr/bin/gcc
+	export CXX=${DEVELOPER}/usr/bin/g++
 	if [ "${ARCH}" == "i386" ];
 	then
-	export CC=${BUILD_DEVROOT}/usr/bin/gcc
-		export CPP=${BUILD_DEVROOT}/usr/bin/cpp
-		export CXX=${BUILD_DEVROOT}/usr/bin/g++
-		export CXXCPP=$BUILD_DEVROOT/usr/bin/cpp
+		export AR=${DEVELOPER}/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar
+		export AS=${DEVELOPER}/Toolchains/XcodeDefault.xctoolchain/usr/bin/as
+		export NM=${DEVELOPER}/Toolchains/XcodeDefault.xctoolchain/usr/bin/nm
+		export RANLIB=${DEVELOPER}/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib
 	else
-		export CC=${BUILD_DEVROOT}/usr/bin/gcc
-		export CXX=${BUILD_DEVROOT}/usr/bin/g++
+		export AR=${BUILD_DEVROOT}/usr/bin/ar
+		export AS=${BUILD_DEVROOT}/usr/bin/as
+		export NM=${BUILD_DEVROOT}/usr/bin/nm
+		export RANLIB=${DEVROOT}/usr/bin/ranlib
 	fi
-	export AR=${BUILD_DEVROOT}/usr/bin/ar
-	export AS=${BUILD_DEVROOT}/usr/bin/as
-	export NM=${BUILD_DEVROOT}/usr/bin/nm
-	export CXXCPP=$BUILD_DEVROOT/usr/bin/cpp
-	export RANLIB=$BUILD_DEVROOT/usr/bin/ranlib
-	export LDFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${BUILD_SDKROOT} -L${CURRENTPATH}/lib"
-	export CFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${BUILD_SDKROOT} -I${CURRENTPATH}/include"
-	export CXXFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${BUILD_SDKROOT} -I${CURRENTPATH}/include"
+	export LDFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${BUILD_SDKROOT} -L${CURRENTPATH}/lib -miphoneos-version-min=7.0"
+	export CFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${BUILD_SDKROOT} -I${CURRENTPATH}/include -miphoneos-version-min=7.0"
+	export CXXFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${BUILD_SDKROOT} -I${CURRENTPATH}/include -miphoneos-version-min=7.0"
 
 	mkdir -p "${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk"
 
