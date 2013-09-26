@@ -21,8 +21,8 @@
 ###########################################################################
 #  Change values here
 #
-VERSION="1.5.0"
-SDKVERSION="6.1"
+VERSION="1.5.3"
+SDKVERSION="7.0"
 #
 ###########################################################################
 #
@@ -76,20 +76,24 @@ do
 
 	export DEVROOT="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
 	export SDKROOT="${DEVROOT}/SDKs/${PLATFORM}${SDKVERSION}.sdk"
-	export CC=${DEVROOT}/usr/bin/gcc
-	export LD=${DEVROOT}/usr/bin/ld
-	export CPP=${DEVROOT}/usr/bin/llvm-cpp-4.2
-	export CXX=${DEVROOT}/usr/bin/g++
-	export AR=${DEVROOT}/usr/bin/ar
-	export AS=${DEVROOT}/usr/bin/as
-	export NM=${DEVROOT}/usr/bin/nm
-	export CXXCPP=$DEVROOT/usr/bin/llvm-cpp-4.2
-	export RANLIB=$DEVROOT/usr/bin/ranlib
-	export LDFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -L${CURRENTPATH}/lib"
-	export CFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -I${CURRENTPATH}/include"
-	export CXXFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -I${CURRENTPATH}/include"
-
-	./configure --host=${ARCH}-apple-darwin --prefix="${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk" --disable-shared --enable-static --with-gpg-error-prefix="${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk" >> "${LOG}" 2>&1
+	export CC=${DEVELOPER}/usr/bin/gcc
+	export LD=${DEVELOPER}/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld
+	export CXX=${DEVELOPER}/usr/bin/g++
+	export AR=${DEVELOPER}/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar
+	export AS=${DEVELOPER}/Toolchains/XcodeDefault.xctoolchain/usr/bin/as
+	export NM=${DEVELOPER}/Toolchains/XcodeDefault.xctoolchain/usr/bin/nm
+	export RANLIB=${DEVELOPER}/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib
+	export LDFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -L${CURRENTPATH}/lib -miphoneos-version-min=7.0 -fheinous-gnu-extensions"
+	export CFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -I${CURRENTPATH}/include -miphoneos-version-min=7.0 -fheinous-gnu-extensions"
+	export CPPFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -I${CURRENTPATH}/include -miphoneos-version-min=7.0 -fheinous-gnu-extensions"
+	export CXXFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -I${CURRENTPATH}/include -miphoneos-version-min=7.0 -fheinous-gnu-extensions"
+	
+	if [ "${ARCH}" == "i386" ];
+	then
+		./configure --host=${ARCH}-apple-darwin --prefix="${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk" --disable-shared --enable-static --with-gpg-error-prefix="${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk" --disable-aesni-support >> "${LOG}" 2>&1
+	else
+		./configure --host=${ARCH}-apple-darwin --prefix="${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk" --disable-shared --enable-static --with-gpg-error-prefix="${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk" >> "${LOG}" 2>&1
+	fi
 
 	make >> "${LOG}" 2>&1
 	make install >> "${LOG}" 2>&1
