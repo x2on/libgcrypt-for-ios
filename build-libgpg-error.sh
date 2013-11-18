@@ -28,7 +28,7 @@ SDKVERSION="7.0"
 #
 # Don't change anything here
 CURRENTPATH=`pwd`
-ARCHS="i386 armv7 armv7s"
+ARCHS="i386 x86_64 armv7 armv7s arm64"
 DEVELOPER=`xcode-select -print-path`
 
 ##########
@@ -46,7 +46,7 @@ mkdir -p src
 
 for ARCH in ${ARCHS}
 do
-	if [ "${ARCH}" == "i386" ];
+	if [[ "${ARCH}" == "i386" || "${ARCH}" == "x86_64" ]];
 	then
 		PLATFORM="iPhoneSimulator"
 	else
@@ -62,7 +62,7 @@ do
 	export LD=${BUILD_DEVROOT}/usr/bin/ld
 	export CC=${DEVELOPER}/usr/bin/gcc
 	export CXX=${DEVELOPER}/usr/bin/g++
-	if [ "${ARCH}" == "i386" ];
+	if [[ "${ARCH}" == "i386" || "${ARCH}" == "x86_64" ]];
 	then
 		export AR=${DEVELOPER}/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar
 		export AS=${DEVELOPER}/Toolchains/XcodeDefault.xctoolchain/usr/bin/as
@@ -81,8 +81,14 @@ do
 	mkdir -p "${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk"
 
 	LOG="${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk/build-libgpg-error-${VERSION}.log"
-
-	./configure --host=${ARCH}-apple-darwin --prefix="${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk" --disable-shared --enable-static >> "${LOG}" 2>&1
+	
+	HOST=${ARCH}
+	if [ "${ARCH}" == "arm64" ];
+	then
+		HOST="arm"
+	fi
+	
+	./configure --host=${HOST}-apple-darwin --prefix="${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk" --disable-shared --enable-static >> "${LOG}" 2>&1
 
 	make >> "${LOG}" 2>&1
 	make install >> "${LOG}" 2>&1
@@ -92,7 +98,7 @@ do
 done
 
 echo "Build library..."
-lipo -create ${CURRENTPATH}/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/lib/libgpg-error.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv7.sdk/lib/libgpg-error.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv7s.sdk/lib/libgpg-error.a -output ${CURRENTPATH}/lib/libgpg-error.a
+lipo -create ${CURRENTPATH}/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/lib/libgpg-error.a ${CURRENTPATH}/bin/iPhoneSimulator${SDKVERSION}-x86_64.sdk/lib/libgpg-error.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv7.sdk/lib/libgpg-error.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv7s.sdk/lib/libgpg-error.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-arm64.sdk/lib/libgpg-error.a  -output ${CURRENTPATH}/lib/libgpg-error.a
 mkdir -p ${CURRENTPATH}/include/libgpg-error
 cp -R ${CURRENTPATH}/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/include/ ${CURRENTPATH}/include/libgpg-error/
 echo "Building done."
