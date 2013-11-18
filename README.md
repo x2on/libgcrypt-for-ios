@@ -1,4 +1,4 @@
-# libgcrypt-for-ios
+# libgcrypt-for-ios [![Build Status](https://travis-ci.org/x2on/libgcrypt-for-ios.png)](https://travis-ci.org/x2on/libgcrypt-for-ios)
 
 This is script for building libgcrypt for iOS.
 

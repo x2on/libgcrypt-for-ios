@@ -1,0 +1,5 @@
+language: objective-c
+
+script: 
+ - ./build-libgpg-error.sh
+ - ./build-libgcrypt.sh
