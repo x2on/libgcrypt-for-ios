@@ -85,7 +85,7 @@ do
 	HOST=${ARCH}
 	if [ "${ARCH}" == "arm64" ];
 	then
-		HOST="arm"
+		HOST="aarch64"
 	fi
 	
 	./configure --host=${HOST}-apple-darwin --prefix="${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk" --disable-shared --enable-static >> "${LOG}" 2>&1

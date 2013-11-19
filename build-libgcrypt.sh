@@ -91,7 +91,7 @@ do
 	HOST="${ARCH}"
 	if [ "${ARCH}" == "arm64" ];
 	then
-		HOST="arm"
+		HOST="aarch64"
 	fi
 
 	
