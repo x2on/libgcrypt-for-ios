@@ -28,7 +28,7 @@ SDKVERSION="7.0"
 #
 # Don't change anything here
 CURRENTPATH=`pwd`
-ARCHS="i386 armv7 armv7s arm64"
+ARCHS="x86_64 i386 armv7 armv7s arm64"
 DEVELOPER=`xcode-select -print-path`
 ##########
 set -e
@@ -53,7 +53,7 @@ mkdir -p src
 
 for ARCH in ${ARCHS}
 do
-	if [ "${ARCH}" == "i386" ];
+	if [[ "${ARCH}" == "i386" || "${ARCH}" == "x86_64" ]];
 	then
 		PLATFORM="iPhoneSimulator"
 	else
@@ -98,6 +98,9 @@ do
 	if [ "${ARCH}" == "i386" ];
 	then
 		./configure --host=${HOST}-apple-darwin --prefix="${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk" --disable-shared --enable-static --with-gpg-error-prefix="${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk" --disable-aesni-support >> "${LOG}" 2>&1
+	elif [ "${ARCH}" == "x86_64" ];
+	then
+			./configure --host=${HOST}-apple-darwin --prefix="${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk" --disable-shared --enable-static --with-gpg-error-prefix="${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk" --disable-aesni-support --disable-asm >> "${LOG}" 2>&1
 	else
 		./configure --host=${HOST}-apple-darwin --prefix="${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk" --disable-shared --enable-static --with-gpg-error-prefix="${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk" >> "${LOG}" 2>&1
 	fi
@@ -110,7 +113,7 @@ do
 done
 
 echo "Build library..."
-lipo -create ${CURRENTPATH}/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/lib/libgcrypt.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv7.sdk/lib/libgcrypt.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv7s.sdk/lib/libgcrypt.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-arm64.sdk/lib/libgcrypt.a -output ${CURRENTPATH}/lib/libgcrypt.a
+lipo -create ${CURRENTPATH}/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/lib/libgcrypt.a ${CURRENTPATH}/bin/iPhoneSimulator${SDKVERSION}-x86_64.sdk/lib/libgcrypt.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv7.sdk/lib/libgcrypt.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv7s.sdk/lib/libgcrypt.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-arm64.sdk/lib/libgcrypt.a -output ${CURRENTPATH}/lib/libgcrypt.a
 mkdir -p ${CURRENTPATH}/include/libgcrypt
 cp -R ${CURRENTPATH}/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/include/gcrypt* ${CURRENTPATH}/include/libgcrypt/
 echo "Building done."
