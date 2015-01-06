@@ -30,6 +30,7 @@ SDKVERSION=`xcrun -sdk iphoneos --show-sdk-version`
 CURRENTPATH=`pwd`
 ARCHS="x86_64 i386 armv7 armv7s arm64"
 DEVELOPER=`xcode-select -print-path`
+FWNAME="gcrypt"
 ##########
 set -e
 if [ ! -e libgcrypt-${VERSION}.tar.gz ]; then
@@ -116,4 +117,18 @@ echo "Build library..."
 lipo -create ${CURRENTPATH}/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/lib/libgcrypt.a ${CURRENTPATH}/bin/iPhoneSimulator${SDKVERSION}-x86_64.sdk/lib/libgcrypt.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv7.sdk/lib/libgcrypt.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv7s.sdk/lib/libgcrypt.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-arm64.sdk/lib/libgcrypt.a -output ${CURRENTPATH}/lib/libgcrypt.a
 mkdir -p ${CURRENTPATH}/include/libgcrypt
 cp -R ${CURRENTPATH}/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/include/gcrypt* ${CURRENTPATH}/include/libgcrypt/
+
+if [ -d $FWNAME.framework ];
+then
+    echo "Removing previous $FWNAME.framework copy"
+    rm -rf $FWNAME.framework
+fi
+
+echo "Creating $FWNAME.framework"
+mkdir -p $FWNAME.framework/Headers
+libtool -no_warning_for_no_symbols -static -o $FWNAME.framework/$FWNAME lib/libgcrypt.a lib/libgpg-error.a
+cp -r include/libgcrypt/* $FWNAME.framework/Headers/
+cp -r include/libgpg-error/* $FWNAME.framework/Headers/
+echo "Created $FWNAME.framework"
+
 echo "Building done."
