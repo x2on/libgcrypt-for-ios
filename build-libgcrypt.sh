@@ -22,11 +22,11 @@
 #  Change values here
 #
 VERSION="1.5.3"
-SDKVERSION="7.1"
 #
 ###########################################################################
 #
 # Don't change anything here
+SDKVERSION=`xcrun -sdk iphoneos --show-sdk-version`                                                          
 CURRENTPATH=`pwd`
 ARCHS="x86_64 i386 armv7 armv7s arm64"
 DEVELOPER=`xcode-select -print-path`
