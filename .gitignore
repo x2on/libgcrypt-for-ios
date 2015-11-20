@@ -3,3 +3,4 @@ src
 *.a
 include
 *.gz
+gcrypt.framework

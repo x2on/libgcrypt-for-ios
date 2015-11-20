@@ -10,4 +10,9 @@ Building the libraries:
 ```
 
 ## System support
-**iOS 4.3 - iOS 8.1 (i386, x86_64, armv7, armv7s, arm64) is currently supported.**
+**iOS 6.0 - iOS 9.1 (i386, x86_64, armv7, armv7s, arm64) is currently supported.**
+
+## Requirements:
+
+* Xcode 7.1
+* Xcode Command Line Tools
