@@ -109,7 +109,7 @@ do
 	make >> "${LOG}" 2>&1
 	make install >> "${LOG}" 2>&1
 	cd ${CURRENTPATH}
-	rm -rf src/libgcrypt-${VERSION}
+	# rm -rf src/libgcrypt-${VERSION}
 	
 done
 
