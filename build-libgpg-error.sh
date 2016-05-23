@@ -85,7 +85,7 @@ do
 	make >> "${LOG}" 2>&1
 	make install >> "${LOG}" 2>&1
 	cd ${CURRENTPATH}
-	rm -rf src/libgpg-error-${VERSION}
+	# rm -rf src/libgpg-error-${VERSION}
 	
 done
 
